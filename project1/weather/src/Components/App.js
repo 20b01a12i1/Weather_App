@@ -50,5 +50,3 @@ const App = () => {
 
 export default App;
 
-// git push origin master
-// git remote add origin https://github.com/20b01a12i1/Weather_App.git
