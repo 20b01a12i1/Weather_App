@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-
-const app = () => {
+const App = () => {
     const [city,setCity]=useState("");
     const [res,setRes]=useState("");
+    const [tem,setTem]=useState("");
     const changeValue =(e)=>{
-        setCity(e.target.value);
+        const value=e.target.value
+        setCity(value);
     }
     const submitValue=(e)=>{
         e.preventDefault();
@@ -12,17 +13,23 @@ const app = () => {
         fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=d885aa1d783fd13a55050afeef620fcb`).then(
             response=>response.json()
         ).then(data=>{
-            // console.log(data.main.temp)
+            console.log(data)
             const kel = data.main.temp;
             const cel = kel-273.15;
-            setRes("Temperature at "+city+" is \n"+Math.round(cel)+"°C");
+            const detail = data.weather[0].description;
+            setRes(data.name+" \n "+Math.round(cel)+"°C");
+            setTem(detail);
             // console.log(cel)
             setCity("");
+        }).catch((err)=>{
+            alert("Please enter valid name...!")
+            setCity("")
         })
         // console.log(city);
     }
     return (
-        <div>
+        <div className='code'>
+            <div className='background'>
              <center>
                 <div className="card">
                     <div className='card-body'>
@@ -31,12 +38,17 @@ const app = () => {
                             <input type="text" name="city" value={city} onChange={changeValue}/><br /><br />
                             <input type="submit" value="Get Temperature"/>
                         </form><br /><br />
-                        <h2>{res}</h2>
+                        <i className="big thermometer half icon"></i><i><h2>{res}</h2></i>
+                        <i className="huge cloud icon"></i><h4>{tem}</h4>
                     </div>
                 </div>
              </center>
+             </div>
         </div>
     );
 };
 
-export default app;
+export default App;
+
+// git push origin master
+// git remote add origin https://github.com/20b01a12i1/Weather_App.git
